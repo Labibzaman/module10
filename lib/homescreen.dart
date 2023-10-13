@@ -105,128 +105,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     showDialog(
                         context: context,
                         builder: (context) {
-                          return AlertDialog(
-                            title: Text('Alert'),
-                            actions: [
-                              Column(
-                                children: [
-                                  SizedBox(
-                                    height: 65,
-                                    child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceAround,
-                                      children: [
-                                        GestureDetector(
-                                            onTap: () {
-                                              showModalBottomSheet(
-                                                  context: context,
-                                                  builder: (context) {
-                                                    return Column(
-                                                      children: [
-                                                        Padding(
-                                                          padding:
-                                                              EdgeInsets.all(
-                                                                  10),
-                                                          child: TextFormField(
-                                                            controller: titleCon
-                                                              ..text =
-                                                                  items[index]
-                                                                      .title,
-                                                            decoration: InputDecoration(
-                                                                hintText: '',
-                                                                border: OutlineInputBorder(
-                                                                    borderRadius:
-                                                                        BorderRadius.circular(
-                                                                            10))),
-                                                          ),
-                                                        ),
-                                                        Padding(
-                                                          padding:
-                                                              EdgeInsets.only(
-                                                                  bottom: 8.0,
-                                                                  left: 8,
-                                                                  right: 8),
-                                                          child: TextFormField(
-                                                            controller:
-                                                                descripCon
-                                                                  ..text = items[
-                                                                          index]
-                                                                      .descrip,
-                                                            decoration: InputDecoration(
-                                                                hintText: '',
-                                                                border: OutlineInputBorder(
-                                                                    borderRadius:
-                                                                        BorderRadius.circular(
-                                                                            10))),
-                                                          ),
-                                                        ),
-                                                        Center(
-                                                          child: ElevatedButton(
-                                                            onPressed: () {
-                                                              int itemNumber =
-                                                                  items.indexOf(
-                                                                      items[
-                                                                          index]);
-                                                              if (itemNumber !=
-                                                                  -1) {
-                                                                items[index] = Item(
-                                                                    titleCon
-                                                                        .text,
-                                                                    descripCon
-                                                                        .text);
-
-                                                                titleCon
-                                                                    .clear();
-                                                                descripCon
-                                                                    .clear();
-                                                                Navigator.of(
-                                                                        context)
-                                                                    .pop();
-
-                                                                setState(() {});
-                                                              }
-                                                            },
-                                                            child: Text(
-                                                              'Edit Done',
-                                                            ),
-                                                            style: ElevatedButton
-                                                                .styleFrom(
-                                                                    backgroundColor:
-                                                                        Colors
-                                                                            .red,
-                                                                    minimumSize:
-                                                                        Size(90,
-                                                                            40)),
-                                                          ),
-                                                        ),
-                                                      ],
-                                                    );
-                                                  });
-                                            },
-                                            child: Text(
-                                              'Edit',
-                                              style:
-                                                  TextStyle(color: Colors.blue),
-                                            )),
-                                        GestureDetector(
-                                          onTap: () {
-                                            items.removeAt(index);
-                                            setState(() {});
-                                            Navigator.pop(context);
-                                          },
-                                          child: Text(
-                                            'Delete',
-                                            style:
-                                                TextStyle(color: Colors.blue),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ],
-                          );
+                          return buildAlertDialog(context, index);
                         });
                   },
                   tileColor: Color(0xFFe0e0e0),
@@ -247,6 +126,103 @@ class _HomeScreenState extends State<HomeScreen> {
           ],
         ),
       ),
+    );
+  }
+
+  AlertDialog buildAlertDialog(BuildContext context, int index) {
+    return AlertDialog(
+      title: Text('Alert'),
+      actions: [
+        Column(
+          children: [
+            SizedBox(
+              height: 65,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  GestureDetector(
+                      onTap: () {
+                        showModalBottomSheet(
+                            context: context,
+                            builder: (context) {
+                              return Column(
+                                children: [
+                                  Padding(
+                                    padding: EdgeInsets.all(10),
+                                    child: TextFormField(
+                                      controller: titleCon
+                                        ..text = items[index].title,
+                                      decoration: InputDecoration(
+                                          hintText: '',
+                                          border: OutlineInputBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(10))),
+                                    ),
+                                  ),
+                                  Padding(
+                                    padding: EdgeInsets.only(
+                                        bottom: 8.0, left: 8, right: 8),
+                                    child: TextFormField(
+                                      controller: descripCon
+                                        ..text = items[index].descrip,
+                                      decoration: InputDecoration(
+                                          hintText: '',
+                                          border: OutlineInputBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(10))),
+                                    ),
+                                  ),
+                                  Center(
+                                    child: ElevatedButton(
+                                      onPressed: () {
+                                        int itemNumber =
+                                            items.indexOf(items[index]);
+                                        if (itemNumber != -1) {
+                                          items[index] = Item(
+                                              titleCon.text, descripCon.text);
+
+                                          titleCon.clear();
+                                          descripCon.clear();
+
+                                          Navigator.of(context).pop();
+
+                                          setState(() {});
+                                          Navigator.of(context).pop();
+                                        }
+                                      },
+                                      child: Text(
+                                        'Edit Done',
+                                      ),
+                                      style: ElevatedButton.styleFrom(
+                                          backgroundColor: Colors.red,
+                                          minimumSize: Size(90, 40)),
+                                    ),
+                                  ),
+                                ],
+                              );
+                            });
+                      },
+                      child: Text(
+                        'Edit',
+                        style: TextStyle(color: Colors.blue),
+                      )),
+                  GestureDetector(
+                    onTap: () {
+                      items.removeAt(index);
+                      setState(() {});
+                      Navigator.pop(context);
+                    },
+                    child: Text(
+                      'Delete',
+                      style: TextStyle(color: Colors.blue),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
+      ],
     );
   }
 }
